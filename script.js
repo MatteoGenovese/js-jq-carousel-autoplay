@@ -43,18 +43,34 @@ thumbNailImage.classList.add("active-thumbnail");
 previousBtn = document.getElementById("previous-btn");
 followingBtn = document.getElementById("following-btn");
 
-const clock = setInterval(swipeImage, 3000);
-//console.log(clock) <- cosa ci restituirà?
-function swipeImage() {
+const clock = setInterval(swipeImage, 3000, "r");
+
+followingBtn.addEventListener(`click`, function() {
+    swipeImage("r")
+});
+
+previousBtn.addEventListener(`click`, function() {
+    swipeImage("l")
+});
+
+function swipeImage(direction) {
+
     carousel.children[index].classList.add("visually-hidden");
     carousel.children[index].classList.remove("d-block");
 
     thumbNailImage = document.querySelector(`.thumbnail div.row div.col:nth-child(${index+1}) img`)
     thumbNailImage.classList.remove("active-thumbnail");
 
-    index += 1;
-    if (index == images.length) {
-        index = 0;
+    if (direction == "r") {
+        index += 1;
+        if (index == images.length) {
+            index = 0;
+        }
+    } else if (direction == "l") {
+        index -= 1;
+        if (index == -1) {
+            index = images.length - 1;
+        }
     }
     carousel.children[index].classList.remove("visually-hidden");
     carousel.children[index].classList.add("d-block");
@@ -62,44 +78,5 @@ function swipeImage() {
     thumbNailImage = document.querySelector(`.thumbnail div.row div.col:nth-child(${index+1}) img`)
     thumbNailImage.classList.add("active-thumbnail");
 
+
 }
-
-followingBtn.addEventListener(`click`,
-    function() {
-        carousel.children[index].classList.add("visually-hidden");
-        carousel.children[index].classList.remove("d-block");
-
-        thumbNailImage = document.querySelector(`.thumbnail div.row div.col:nth-child(${index+1}) img`)
-        thumbNailImage.classList.remove("active-thumbnail");
-
-        index += 1;
-        if (index == images.length) {
-            index = 0;
-        }
-        carousel.children[index].classList.remove("visually-hidden");
-        carousel.children[index].classList.add("d-block");
-
-        thumbNailImage = document.querySelector(`.thumbnail div.row div.col:nth-child(${index+1}) img`)
-        thumbNailImage.classList.add("active-thumbnail");
-    }
-);
-
-previousBtn.addEventListener(`click`,
-    function() {
-        carousel.children[index].classList.add("visually-hidden");
-        carousel.children[index].classList.remove("d-block");
-
-        thumbNailImage = document.querySelector(`.thumbnail div.row div.col:nth-child(${index+1}) img`)
-        thumbNailImage.classList.remove("active-thumbnail");
-
-        index -= 1;
-        if (index == -1) {
-            index = images.length - 1;
-        }
-        carousel.children[index].classList.remove("visually-hidden");
-        carousel.children[index].classList.add("d-block");
-
-        thumbNailImage = document.querySelector(`.thumbnail div.row div.col:nth-child(${index+1}) img`)
-        thumbNailImage.classList.add("active-thumbnail");
-    }
-);
